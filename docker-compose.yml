@@ -1,0 +1,51 @@
+version: "3.7"
+services:
+
+    ## Image
+    app:
+        build:
+            args:
+                user: macrineeu
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: laravel-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - github
+
+    ## Nginx
+    nginx:
+        image: nginx:latest
+        ports:
+            - "8000:8000"
+            - "443:443"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/site.conf:/etc/nginx/conf.d/site.conf
+            # - ./docker/certs:/etc/nginx/ssl
+        networks:
+            - github
+
+    ## MySQL
+    db_app:
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes:
+            - ./database/mysql/dbdata:/var/lib/mysql
+        ports:
+            - 3307:3306
+        networks:
+            - github
+
+networks:
+    github:
+        driver: bridge
