@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CategoryResources;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Resources\CategoryResources;
+use App\Http\Requests\StoreUpdateCategory;
 
 class CategoryController extends Controller
 {
@@ -33,9 +34,12 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateCategory $request)
     {
-        //
+
+        $category = $this->respository->create($request->validated());
+
+        return new CategoryResources($category);
     }
 
     /**
