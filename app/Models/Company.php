@@ -13,4 +13,9 @@ class Company extends Model
         'category_id', 'uuid', 'name', 'url', 'phone', 'whatsapp', 'email', 'facebook', 'instagram',
         'youtube'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
