@@ -39,4 +39,17 @@ class CategoryTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    /**
+     * Get single category
+     * 
+     * @return void
+     */
+    public function test_get_single_category()
+    {
+        $category = Category::factory()->create();
+        $response = $this->getJson("{$this->endpoint}/{$category->url}");
+
+        $response->assertStatus(200);
+    }
 }
