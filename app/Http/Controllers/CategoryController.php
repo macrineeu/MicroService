@@ -37,7 +37,7 @@ class CategoryController extends Controller
     public function store(StoreUpdateCategory $request)
     {
 
-        $category = $this->respository->create($request->validated());
+        $category = $this->repository->create($request->validated());
 
         return new CategoryResources($category);
     }
