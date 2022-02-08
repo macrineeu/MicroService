@@ -60,7 +60,6 @@ class CategoryTest extends TestCase
      */
     public function test_validation_store_category()
     {
-        $category = Category::factory()->create();
         $response = $this->postJson($this->endpoint, [
             'title' => '',
             'description' => ''
@@ -69,5 +68,20 @@ class CategoryTest extends TestCase
         $response->dump();
 
         $response->assertStatus(422);
+    }
+
+    /**
+     * Store category
+     * 
+     * @return void
+     */
+    public function test_store_category()
+    {
+        $response = $this->postJson($this->endpoint, [
+            'title' => 'Category 01',
+            'description' => 'Description of category'
+        ]);
+
+        $response->assertStatus(201);
     }
 }
